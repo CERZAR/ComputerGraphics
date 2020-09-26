@@ -1,10 +1,9 @@
 # ComputerGraphics labs
 Laboratory works on computer graphics [5 semester]
 # Laboratory work №1
-<br />Tasks:
+Tasks:
  - [X] realise trajectory movement
  - [X] draw something
-
 ## Task_1 - Realise trajectory movement
  > 1.1 - Sinusoidal motion:
  ![](lab01/images/sinMotion.gif)
