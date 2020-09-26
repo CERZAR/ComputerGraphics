@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+
+<style>
+
+    .button {
+        background: #af4c4c;
+        display: block;
+        border: none;
+        margin: 8px 192px;
+        padding: 10px 30px;
+        color: white;
+        font: 150% calibri;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .button:hover {
+        background: #4faf4c;
+    }
+
+</style>
+
+<body>
+    <canvas width='600' height='400' id="lab02"> </canvas>
+    <input type="button" class="button" id="btn_black_while_filter" value="set black & white">
+
+    <script>
+
+        var canvas = document.getElementById("lab02");
+        var ctx = canvas.getContext("2d")
+
+        var img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.src = 'https://www.trunqd.com/uploadimages/postimages/c6cwe2wo.jpeg';
+        img.onload = function() {
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        function black_while_filter() {
+        var img_data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        var p = img_data.data;
+        for (var i = 0; i < p.length; i += 4) {
+        var m = (p[i] + p[i + 1] + p[i + 2]) / 3;
+        p[i] = m;
+        p[i + 1] = m;
+        p[i + 2] = m;
+        };
+        ctx.putImageData(img_data, 0, 0);
+        }
+
+        var btn_filter = document.getElementById('btn_black_while_filter');
+        btn_filter.addEventListener('click', black_while_filter);
+        };
+
+    </script>
+
+</body>
+
+</html>
