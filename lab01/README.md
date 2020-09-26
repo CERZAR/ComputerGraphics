@@ -9,7 +9,7 @@ Homework 1 on computer graphics [5 semester]
  ![](Images/sinMotion.gif)
  > 1.2 - Lissajous figures
  ![](Images/lissajousFigures.gif)
- > 1.3 - Ñircular motion<br />![](Images/circularMotion.gif)
+ > 1.3 - Ð¡ircular motion<br />![](Images/circularMotion.gif)
 
 # Task_2 - Draw something
  > Home<br />![](Images/home.png)
