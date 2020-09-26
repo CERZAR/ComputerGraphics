@@ -6,10 +6,10 @@ Homework 1 on computer graphics [5 semester]
 
 # Task_1 - Realise trajectory movement
  > 1.1 - Sinusoidal motion:
- ![](Images/sinMotion.gif)
+ ![](lab01/images/sinMotion.gif)
  > 1.2 - Lissajous figures
  ![](Images/lissajousFigures.gif)
- > 1.3 - Сircular motion<br />![](Images/circularMotion.gif)
+ > 1.3 - Сircular motion<br />![](lab01/images/circularMotion.gif)
 
 # Task_2 - Draw something
- > Home<br />![](Images/home.png)
+ > Home<br />![](lab01/images/home.png)
