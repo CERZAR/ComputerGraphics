@@ -2,10 +2,10 @@
 Laboratory works on computer graphics [5 semester]
 
 # Laboratory work №1
-![](gifs/sinMotion.gif)
-![](gifs/lissajousFigures.gif)
-![](gifs/circularMotion.gif)
-![](gifs/home.png)
+![](gifs/lab01_demo1.gif)
+![](gifs/lab01_demo2.gif)
+![](gifs/lab01_demo3.gif)
+![](gifs/lab01_demo4.png)
 
 # Laboratory work №2
 ![](gifs/lab02_demo.gif)
