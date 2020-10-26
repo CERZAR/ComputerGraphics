@@ -1,0 +1,78 @@
+<html>
+
+    <style>
+
+        .button {
+            background: #af4c4c;
+            display: block;
+            border: none;
+            margin: 8px 192px;
+            padding: 10px 30px;
+            color: white;
+            font: 150% calibri;
+            text-align: center;
+            cursor: pointer;
+        }
+    
+        .button:hover {
+            background: #4faf4c;
+        }
+    
+    </style>
+
+<body>
+    <canvas width='600' height='400' id="lab04"> </canvas>
+    <input type="button" class="button" id="btn_filter" value="set sobel filter">
+
+    <script>
+        var img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.src = 'https://www.trunqd.com/uploadimages/postimages/c6cwe2wo.jpeg';
+
+        img.onload = function () {
+            var canvas = document.getElementById('lab04');
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            function get_Gx(pixels, x, y) {
+                return (pixels[((y + 1) * canvas.width + x - 1) * 4] + 
+                (pixels[((y + 1) * canvas.width + x) * 4]) * 2 + 
+                pixels[((y + 1) * canvas.width + x + 1) * 4]) - 
+                (pixels[((y - 1) * canvas.width + x - 1) * 4] + 
+                (pixels[((y - 1) * canvas.width + x) * 4]) * 2 + 
+                pixels[((y - 1) * canvas.width + x + 1) * 4]);
+            }
+            function get_Gy(pixels, x, y) {
+                return (pixels[((y - 1) * canvas.width + x + 1) * 4] + 
+                (pixels[((y) * canvas.width + x + 1) * 4]) * 2 + 
+                pixels[((y + 1) * canvas.width + x + 1) * 4]) - 
+                (pixels[((y - 1) * canvas.width + x - 1) * 4] + 
+                (pixels[((y) * canvas.width + x - 1) * 4]) * 2 + 
+                pixels[((y + 1) * canvas.width + x - 1) * 4]);
+            }
+
+            function filter() {
+                var img_data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                let img_data2 = new ImageData(canvas.width,canvas.height);
+                var pixels = img_data.data;
+
+                for (var y = 1; y < canvas.height - 1; y++) {
+                    for (var x = 1; x < canvas.width - 1; x++) {
+                        var G = Math.ceil(Math.sqrt(Math.pow(get_Gx(pixels, x, y), 2) + Math.pow(get_Gy(pixels, x, y), 2 )));
+                        for (var i = 0; i < 3; i++)
+                        img_data2.data[(y*canvas.width+x)*4 + i] = G;
+                        img_data2.data[(y*canvas.width+x)*4 + 3] = 255;
+
+                    }
+                }
+                ctx.putImageData(img_data2, 0, 0);
+            };
+
+            var btn_filter = document.getElementById('btn_filter');
+            btn_filter.addEventListener('click', filter);
+        };
+    </script>
+
+</body>
+
+</html>
