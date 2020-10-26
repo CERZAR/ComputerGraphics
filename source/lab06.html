@@ -1,0 +1,185 @@
+<html>
+
+<body>
+    <canvas width='600' height='400' id="lab06"> </canvas>
+    <script>
+        let canvas = document.getElementById('lab06');
+
+        let polyg_points = [];
+        let polyg_points_number = 0;
+
+        let flag = 1;
+        let state = 1;
+        let x0 = 0;
+        let y0 = 0;
+
+        let ctx = canvas.getContext('2d');
+        function line(x0, y0, x1, y1) 
+        {
+            let x = x0;
+            let y = y0;
+            let move_x = 1;
+            let move_y = 1;
+
+            if (x0 > x1)
+                move_x = -1;
+            if (y0 > y1)
+                move_y = -1;
+
+            let dx = Math.abs(x1 - x0);
+            let dy = Math.abs(y1 - y0);
+            let E = dx - dy;
+
+            let pixels_number = 0;
+            if (dx > dy)
+                pixels_number = dx;
+            else
+                pixels_number = dy;
+
+            while (pixels_number > 0) 
+            {
+                pixels_number -= 1;
+                ctx.fillRect(x, y, 2, 2);
+                if (dy >= -2 * E) 
+                {
+                    x += move_x;
+                    E -= dy;
+                }
+                if (dx >= 2 * E) 
+                {
+                    y += move_y;
+                    E += dx;
+                }
+            }
+        }
+
+        class Pixel 
+        {
+            constructor(x, y) 
+            {
+                this.x = x;
+                this.y = y;
+            }
+            get_neighbours() 
+            {
+                let neighbours = [];
+
+                neighbours[0] = new Pixel(this.x, this.y - 1);
+                neighbours[1] = new Pixel(this.x - 1, this.y);
+                neighbours[2] = new Pixel(this.x, this.y + 1);
+                neighbours[3] = new Pixel(this.x + 1, this.y);
+
+                return neighbours;
+            }
+        };
+
+        class Stack 
+        {
+            constructor() 
+            {
+                this._size = 0;
+                this._storage = {};
+            }
+            push(data) 
+            {
+                this._size++;
+                this._storage[this._size] = data;
+            };
+
+            pop() 
+            {
+                let data;
+                if (this._size) 
+                {
+                    data = this._storage[this._size];
+
+                    delete this._storage[this._size];
+                    this._size--;
+
+                    return data;
+                }
+            };
+
+            not_empty() 
+            {
+                return this._size != 0;
+            }
+        }
+
+        function fillArea(x, y) 
+        {
+            ctx.fillStyle = "#000080";
+
+            let current_point = new Pixel(x, y);
+            let stack = new Stack();
+
+            stack.push(current_point);
+
+            while (stack.not_empty()) 
+            {
+                current_point = stack.pop();
+
+                if (ctx.getImageData(current_point.x, current_point.y, 1, 1).data[3] != 255) 
+                {
+
+                    ctx.fillRect(current_point.x, current_point.y, 1, 1);
+
+                    neighbours = current_point.get_neighbours()
+                    neighbours.forEach(neibhour => 
+                    {
+                        stack.push(neibhour);
+                    });
+
+                }
+            }
+
+        }
+
+
+        canvas.addEventListener('click', (event) => 
+        {
+            if (state) 
+            {
+                if (flag) 
+                {
+                    if (event.offsetX > 0 && event.offsetX < canvas.width)
+                        if (event.offsetY > 0 && event.offsetY < canvas.height) 
+                        {
+                            polyg_points[polyg_points_number] = new Pixel(event.offsetX, event.offsetY);
+                            polyg_points_number++;
+
+                            x0 = event.offsetX;
+                            y0 = event.offsetY;
+                            ctx.fillRect(x0, y0, 2, 2);
+                            flag = 0;
+                        }
+                }
+                else 
+                {
+                    polyg_points[polyg_points_number] = new Pixel(event.offsetX, event.offsetY);
+                    polyg_points_number++;
+
+                    ctx.fillRect(event.offsetX, event.offsetY, 2, 2);
+                    line(x0, y0, event.offsetX, event.offsetY);
+                    x0 = event.offsetX;
+                    y0 = event.offsetY;
+                }
+            }
+            else 
+            {
+                fillArea(event.offsetX, event.offsetY);
+            }
+        });
+
+        document.addEventListener('keydown', function (event) 
+        {
+            if (state == 1 && polyg_points_number > 1) 
+            {
+                state = 0; flag = 1;
+                line(polyg_points[0].x, polyg_points[0].y, polyg_points[polyg_points_number - 1].x, polyg_points[polyg_points_number - 1].y); // Draw last line
+            }
+        });
+    </script>
+</body>
+
+</html>
