@@ -21,3 +21,6 @@ Laboratory works on computer graphics [5 semester]
 
 # Laboratory work №6
 ![](gifs/lab06_demo.gif)
+
+# Laboratory work №7
+![](gifs/lab07_demo.gif)
